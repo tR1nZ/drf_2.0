@@ -1,6 +1,6 @@
 import React from 'react'
 import UserList from './components/User.js'
-import {HashRouter, Route, Link, Switch, Redirect} from 'react-router-dom'
+import {BrowserRouter, HashRouter, Route, Link, Routes, Navigate} from 'react-router-dom'
 
 
 const NotFound404 = ({ location }) => {
@@ -35,11 +35,11 @@ class App extends React.Component {
               </li>
             </ul>
           </nav>
-            <Switch>
+            <Routes>
               <Route exact path='/' component={() => <UserList items={this.state.users} />} />
               <Route component={NotFound404} />          
-              <Redirect from='/users' to='/' />
-            </Switch>        
+              <Navigate from='/users' to='/' />
+            </Routes>        
           </HashRouter>
         </BrowserRouter>
       </div>

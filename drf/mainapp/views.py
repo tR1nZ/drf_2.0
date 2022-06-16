@@ -2,7 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from .models import User
-from .serializer import UserModelSerializer
+from .serializer import UserSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.generics import CreateAPIView, get_object_or_404
@@ -21,14 +21,14 @@ from rest_framework.pagination import LimitOffsetPagination
 @renderer_classes([JSONRenderer])
 def article_view(request):
     users = User.objects.all()
-    serializer = UserModelSerializer(users, many=True)
+    serializer = UserSerializer(users, many=True)
     return Response(serializer.data)
 
 
 class UserModelViewSet(ModelViewSet):
     queryset = User.objects.all()
     renderer_classes = [JSONRenderer]
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
 
 
 class UserAPIView(APIView):
@@ -36,42 +36,44 @@ class UserAPIView(APIView):
 
     def get(self, request, format=None):
         users = User.objects.all()
-        serializer = UserModelSerializer(users, many=True)
+        serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
 
 class UserCreateAPIView(CreateAPIView):
     renderer_classes = [JSONRenderer]
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
 
 
 class UserListAPIView(ListAPIView):
     renderer_classes = [JSONRenderer]
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
 
 
 class UserRetrieveAPIView(RetrieveAPIView):
     renderer_classes = [JSONRenderer]
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
 
 
 class UserUpdateAPIView(UpdateAPIView):
     renderer_classes = [JSONRenderer]
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
 
 
 class UserDestroyAPIView(DestroyAPIView):
     renderer_classes = [JSONRenderer]
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
 
 
 class UserViewSet(viewsets.ViewSet):
-    renderer_classes = [JSONRenderer]
+    serializer_class = UserSerializer
+    queryset = User.objects.all()
+
 
     @action(detail=True, methods=['get'])
     def user_text_only(self, request, pk=None):
@@ -80,24 +82,24 @@ class UserViewSet(viewsets.ViewSet):
 
     def list(self, request):
         users = User.objects.all()
-        serializer = UserModelSerializer(users, many=True)
+        serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
     def retrieve(self, request, pk=None):
         user = get_object_or_404(User, pk=pk)
-        serializer = UserModelSerializer(user)
+        serializer = UserSerializer(user)
         return Response(serializer.data)
 
 
 class UserCustomViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, mixins.RetrieveModelMixin,
                         viewsets.GenericViewSet):
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
 
 
 class ArticleQuerysetFilterViewSet(viewsets.ModelViewSet):
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
     renderer_classes = [JSONRenderer, BrowsableAPIRenderer]
     queryset = User.objects.all()
 
@@ -106,7 +108,7 @@ class ArticleQuerysetFilterViewSet(viewsets.ModelViewSet):
 
 
 class ArticleKwargsFilterView(ListAPIView):
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
 
     def get_queryset(self):
         name = self.kwargs['name']
@@ -115,13 +117,13 @@ class ArticleKwargsFilterView(ListAPIView):
 
 class ArticleDjangoFilterViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
     filterset_fields = ['name', 'username']
 
 
 class ArticleCustomDjangoFilterViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
     filterset_class = UserFilter
 
 
@@ -131,5 +133,5 @@ class UserLimitOffsetPagination(LimitOffsetPagination):
 
 class ArticleLimitOffsetPaginationViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
-    serializer_class = UserModelSerializer
+    serializer_class = UserSerializer
     pagination_class = UserLimitOffsetPagination
