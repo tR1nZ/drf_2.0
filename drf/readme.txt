@@ -1,0 +1,2 @@
+задание к 1-му уроку приклепилось к основному проекту в качестве начального вида прокта, поэтому измемения были сделаны в:
+mainapp\views.py, mainapp\serializer.py, mainapp\models.py, urls.py, settings.py
