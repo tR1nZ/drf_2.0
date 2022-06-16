@@ -31,7 +31,7 @@ class UserModelViewSet(ModelViewSet):
     serializer_class = UserModelSerializer
 
 
-class UserAPIVIew(APIView):
+class UserAPIView(APIView):
     renderer_classes = [JSONRenderer]
 
     def get(self, request, format=None):
