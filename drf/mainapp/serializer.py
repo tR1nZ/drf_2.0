@@ -6,3 +6,8 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+
+class UserSerializerBase(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('name',)

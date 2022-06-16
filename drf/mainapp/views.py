@@ -2,7 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from .models import User
-from .serializer import UserSerializer
+from .serializer import UserSerializer, UserSerializerBase
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.generics import CreateAPIView, get_object_or_404
@@ -74,8 +74,17 @@ class UserViewSet(viewsets.ViewSet):
     serializer_class = UserSerializer
     queryset = User.objects.all()
 
+    
+
+
 
     @action(detail=True, methods=['get'])
+    
+    def get_serializer_class(self):
+        if self.request.version == '2.0':
+            return UserSerializerBase
+        return UserSerializer
+
     def user_text_only(self, request, pk=None):
         user = get_object_or_404(User, pk=pk)
         return Response({'user.username': user.username})
