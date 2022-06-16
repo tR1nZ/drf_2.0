@@ -18,16 +18,16 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from mainapp.views import UserModelViewSet
 from mainapp import views
-from rest_framework.authtoken import views
+from rest_framework.authtoken import views as view
 
 
 router = DefaultRouter()
 router.register('users', UserModelViewSet)
 
 urlpatterns = [
-    path('api-token-auth/', views.obtain_auth_token),
+    path('api-token-auth/', view.obtain_auth_token),
     path('viewsets/', include(router.urls)),
-    path('views/api-view/', views.UserAPIVIew.as_view()),
+    path('views/api-view/', views.UserAPIView.as_view()),
     path('generic/retrieve/<int:pk>/', views.UserRetrieveAPIView.as_view()),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
