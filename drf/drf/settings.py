@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'clientapp',
     'drf_yasg',
-    "graphene_django",
+    #"graphene_django",
 
 ]
 
@@ -142,6 +142,6 @@ REST_FRAMEWORK = {
     'DEFAULT_VERSIONING_CLASS': 'rest_framework.versioning.AcceptHeaderVersioning',
 }
 
-GRAPHENE = {
+"""GRAPHENE = {
     "SCHEMA": "drf.schema.schema"
-}
+}"""
