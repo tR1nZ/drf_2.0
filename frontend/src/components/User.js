@@ -15,12 +15,16 @@ const UserItem = ({user}) => {
             <td>
                 {user.email}
             </td>
+            <td>
+                <button onClick={()=>deleteUser(item.id)} type='button'>Delete</button>
+            </td>
         </tr>
     )
 }
 
 const UserList = ({users}) => {
     return (
+        <div>
         <table>
             <th>
                 Username
@@ -35,7 +39,10 @@ const UserList = ({users}) => {
                 Email
             </th>
             {users.map((user) => <UserItem user={user} />)}
+            {items.map((item) => <UserItem item={item} deleteUser={deleteUser}/>)}
         </table>
+        <Link to='/users/create'>Create</Link>
+        </div>
     )
 }
 

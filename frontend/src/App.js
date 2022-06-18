@@ -54,7 +54,14 @@ class App extends React.Component {
     }
     return headers
     }
-    
+  deleteUser(id) {
+    const headers = this.get_headers()
+    axios.delete(`http://127.0.0.1:8000/api/users/${id}`, {headers, headers})
+      .then(response => {
+        this.setState({users: this.state.users.filter((item)=>item.id !== id)})
+      }).catch(error => console.log(error))
+  }
+
   load_data() {
     const headers = this.get_headers()
     axios.get('http://127.0.0.1:8000/api/users/', {headers})
@@ -83,6 +90,7 @@ class App extends React.Component {
           <Route exact path='/' component={() => <UserList items={this.state.users} />} />
           <Route exact path='/login' component={() => <LoginForm get_token={(username, password) => this.get_token(username, password)} />} />
           <Route path="/user/:id">
+          <Route exact path='/users' component={() => <UserList items={this.state.users} deleteUser={(id)=>this.deleteUser(id)} />} />
           </Route>
           <Navigate from='/users' to='/' />
           <Route component={NotFound404} />
